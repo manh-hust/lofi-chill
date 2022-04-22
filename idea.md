@@ -26,4 +26,8 @@
                 - Set promodoro lên title
                 - Auto next break time 
 
-# Redux - 
+
+
+# Công nghệ
+- Tailwind CSS
+- Context Hook 
