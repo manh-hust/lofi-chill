@@ -12,3 +12,9 @@
 - Học tailwindCSS
 # Thứ 7 - 23/4/2022
 - Học tailwindCSS
+# Chủ nhật - 24/4/2022
+- Css homepage
+####################################
+# Thứ 2 - 25/4/2022
+- Đọc code trên github
+- Ghép nhạc, cho next bài hát, background
