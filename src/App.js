@@ -1,11 +1,9 @@
 import {cafe1Day} from "./assets/videos/index"
 import Navbar from "./component/Navbar";
-import Control from "./component/Control";
 import { useRef, useState } from "react";
-import { prevIcon, nextIcon, pauseIcon, playIcon } from './assets/icons';
+import { prevIcon, nextIcon, pauseIcon, playIcon, moodIcon, templateIcon, setIcon, focusIcon, borderBrIcon } from './assets/icons';
 import CHILL_LINKS from "./constants/links/chill"
 
-// import Audio from "./component/Audio";
 
 function App() {
 
@@ -68,12 +66,14 @@ function App() {
   }
 
   return (
-    <>
     <div className="relative min-h-screen">
       <Navbar/>
+      {/* Background Video */}
       <video src={cafe1Day} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full min-h-full object-cover lg:aspect-video" 
       autoPlay muted loop/>
-       <div className='fixed bottom-6 w-screen flex justify-center items-center'>
+
+      {/* Controls Audio */}
+      <div className='fixed bottom-6 w-screen flex justify-center items-center'>
           <p className='absolute left-20 opacity-50 text-sm'>Music by - lofi.co 2021 ©</p>
           <div className='flex justify-center items-center'>
               <img src={prevIcon} onClick={handlePrevAudio} alt="icon" className='mx-2 cursor-pointer'/>
@@ -83,13 +83,56 @@ function App() {
               />
               <img src={nextIcon} onClick={handleNextAudio} alt="icon" className='mx-2 cursor-pointer'/>
           </div>
-        </div>
+      </div>
+
+      {/* Audio */}
       <audio src={currentAudio.currentAu}
         autoPlay
         ref={controlRef}
         />
+      {/* Control Background */}
+      <div className="fixed top-1/2 right-0 transform -translate-y-1/2 flex flex-row-reverse items-center z-40">
+        <div className="relative mr-5 flex flex-col h-[280px] w-[70px] bg-transparent-b-60 rounded-full z-20">
+
+            <div className="relative w-[70px] h-[70px] cursor-pointer rounded-t-full">
+              <div className="absolute pointer-events-none w-[115px] h-[115px] -top-5 -left-[22px] ">
+                <img src={moodIcon} className='w-full h-full opacity-20 brightness-200'/>
+              </div>
+              <div class="relative w-[50px] border-b-2 border-transparent-w-30 opacity-20 transform top-full left-1/2 -translate-x-1/2"></div>
+            </div>
+
+            <div className="relative w-[70px] h-[70px] cursor-pointer">
+              <div className="absolute pointer-events-none w-[115px] h-[115px] -top-5 -left-[22px] ">
+                <img src={templateIcon} className='w-full h-full opacity-20 brightness-200'/>
+              </div>
+              <div class="relative w-[50px] border-b-2 border-transparent-w-30 opacity-20 transform top-full left-1/2 -translate-x-1/2"></div>
+            </div>
+
+            <div className="relative w-[70px] h-[70px] cursor-pointer">
+              <div className="absolute pointer-events-none w-[115px] h-[115px] -top-5 -left-[22px] ">
+                <img src={setIcon} className='w-full h-full opacity-20 brightness-200'/>
+              </div>
+              <div class="relative w-[50px] border-b-2 border-transparent-w-30 opacity-20 transform top-full left-1/2 -translate-x-1/2"></div>
+            </div>
+
+            <div className="relative w-[70px] h-[70px] cursor-pointer rounded-t-full">
+              <div className="absolute pointer-events-none w-8 h-8 top-4 left-5">
+                <img src={focusIcon} className='w-full h-full opacity-20 brightness-200'/>
+              </div>
+            </div>
+
+          {/* <div className="flex justify-center items-center">
+            <img src={templateIcon} className='cursor-pointer'/>
+          </div>
+          <div className="flex justify-center items-center">
+            <img src={setIcon} className='cursor-pointer'/>
+          </div>
+          <div className="flex justify-center items-center ">
+            <img src={focusIcon} className='cursor-pointer'/>
+          </div> */}
+        </div>
+      </div>
     </div>
-    </>
   );
 }
 
