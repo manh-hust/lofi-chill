@@ -1,9 +1,9 @@
 import {cafe1Day} from "./assets/videos/index"
 import Navbar from "./component/Navbar";
 import { useRef, useState } from "react";
-import { prevIcon, nextIcon, pauseIcon, playIcon, moodIcon, templateIcon, setIcon, focusIcon, borderBrIcon } from './assets/icons';
+import { prevIcon, nextIcon, pauseIcon, playIcon} from './assets/icons';
 import CHILL_LINKS from "./constants/links/chill"
-
+import Background from "./component/Background";
 
 function App() {
 
@@ -12,7 +12,6 @@ function App() {
   const buttonP = useRef();
   const [currentAudio, setCurrentAudio] = useState(() => {
     const random = Math.floor(Math.random() * CHILL_LINKS.length )
-    console.log(random);
     return {
       currentAu: CHILL_LINKS[random],
       index: random
@@ -91,47 +90,7 @@ function App() {
         ref={controlRef}
         />
       {/* Control Background */}
-      <div className="fixed top-1/2 right-0 transform -translate-y-1/2 flex flex-row-reverse items-center z-40">
-        <div className="relative mr-5 flex flex-col h-[280px] w-[70px] bg-transparent-b-60 rounded-full z-20">
-
-            <div className="relative w-[70px] h-[70px] cursor-pointer rounded-t-full">
-              <div className="absolute pointer-events-none w-[115px] h-[115px] -top-5 -left-[22px] ">
-                <img src={moodIcon} className='w-full h-full opacity-20 brightness-200'/>
-              </div>
-              <div class="relative w-[50px] border-b-2 border-transparent-w-30 opacity-20 transform top-full left-1/2 -translate-x-1/2"></div>
-            </div>
-
-            <div className="relative w-[70px] h-[70px] cursor-pointer">
-              <div className="absolute pointer-events-none w-[115px] h-[115px] -top-5 -left-[22px] ">
-                <img src={templateIcon} className='w-full h-full opacity-20 brightness-200'/>
-              </div>
-              <div class="relative w-[50px] border-b-2 border-transparent-w-30 opacity-20 transform top-full left-1/2 -translate-x-1/2"></div>
-            </div>
-
-            <div className="relative w-[70px] h-[70px] cursor-pointer">
-              <div className="absolute pointer-events-none w-[115px] h-[115px] -top-5 -left-[22px] ">
-                <img src={setIcon} className='w-full h-full opacity-20 brightness-200'/>
-              </div>
-              <div class="relative w-[50px] border-b-2 border-transparent-w-30 opacity-20 transform top-full left-1/2 -translate-x-1/2"></div>
-            </div>
-
-            <div className="relative w-[70px] h-[70px] cursor-pointer rounded-t-full">
-              <div className="absolute pointer-events-none w-8 h-8 top-4 left-5">
-                <img src={focusIcon} className='w-full h-full opacity-20 brightness-200'/>
-              </div>
-            </div>
-
-          {/* <div className="flex justify-center items-center">
-            <img src={templateIcon} className='cursor-pointer'/>
-          </div>
-          <div className="flex justify-center items-center">
-            <img src={setIcon} className='cursor-pointer'/>
-          </div>
-          <div className="flex justify-center items-center ">
-            <img src={focusIcon} className='cursor-pointer'/>
-          </div> */}
-        </div>
-      </div>
+      <Background/>
     </div>
   );
 }

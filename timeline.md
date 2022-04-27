@@ -18,3 +18,6 @@
 # Thứ 2 - 25/4/2022
 - Đọc code trên github
 - Ghép nhạc, cho next bài hát, background
+# Thứ 3, 4, 5 - 26, 27, 28/04/2022
+- Css menu
+- Handle set background
