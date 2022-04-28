@@ -1,5 +1,4 @@
 import { useState, createContext } from "react";
-import {SETS} from '../constants/sets'
 import {cafe1Day} from "../assets/videos/index"
 
 
@@ -7,7 +6,10 @@ const ThemeContext = createContext();
 
 function ThemeProvider({children}){
     
-    const [background, setBackground] = useState(cafe1Day)
+    const [background, setBackground] = useState({
+        link1: cafe1Day,
+        show: true
+    })
     const value = {
         background,
         setBackground

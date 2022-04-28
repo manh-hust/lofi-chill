@@ -27,6 +27,11 @@ module.exports = {
 				fadeIn1s: 'fadeIn 1s ease',
 				fadeOut: 'fadeOut 0.3s ease',
 			},
+      backgroundImage: {
+				gradient: 'var(--gradient)',
+				'gradient-r': 'var(--gradient-r)',
+				'gradient-half': 'var(--gradient-half)',
+			},
 			backgroundColor: (theme) => ({
 				...theme('colors'),
 				bg: 'var(--color-bg)',
@@ -42,6 +47,26 @@ module.exports = {
 				'bg-300': 'var(--color-bg-300)',
 				'bg-400': 'var(--color-bg-400)',
 			}),
+      colors: {
+				primary: 'var(--color-primary)',
+				'primary-20': 'var(--color-primary-20)',
+				secondary: 'var(--color-secondary)',
+				clear: 'var(--color-clear)',
+				'transparent-w-10': 'var(--color-transparent-w-10)',
+				'transparent-w-20': 'var(--color-transparent-w-20)',
+				'transparent-w-30': 'var(--color-transparent-w-30)',
+			},
+			flexGrow: {
+				2: 2,
+				3: 3,
+			},
+			inset: {
+				'1/10': '10%',
+				'1/5': '20%',
+				'2/5': '40%',
+				'3/5': '60%',
+				'4/5': '80%',
+			},
     },
   },
   plugins: [],

@@ -1,4 +1,3 @@
-import {cafe1Day} from "./assets/videos/index"
 import Navbar from "./component/Navbar";
 import { useRef, useState, useContext } from "react";
 import { prevIcon, nextIcon, pauseIcon, playIcon} from './assets/icons';
@@ -20,6 +19,8 @@ function App() {
       index: random
     };
   })
+
+    // console.log([controlRef.current.currentTime]);
 
   function handleControl(){
     if(playing){
@@ -71,8 +72,13 @@ function App() {
     <div className="relative min-h-screen">
       <Navbar/>
       {/* Background Video */}
-      <video src={background} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full min-h-full object-cover lg:aspect-video" 
-      autoPlay muted loop/>
+      <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out delay-500 opacity-100`}
+      >
+        <video src={background.link1} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 
+        -translate-y-1/2 w-full min-h-full object-cover lg:aspect-video" 
+        autoPlay muted loop playsInline
+        />
+      </div>
 
       {/* Controls Audio */}
       <div className='fixed bottom-6 w-screen flex justify-center items-center'>
@@ -89,6 +95,7 @@ function App() {
 
       {/* Audio */}
       <audio src={currentAudio.currentAu}
+        onEnded={handleNextAudio}
         autoPlay
         ref={controlRef}
         />
