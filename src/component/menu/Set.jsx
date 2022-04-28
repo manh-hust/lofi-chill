@@ -1,9 +1,12 @@
-import { useState } from 'react';
-import {SETS} from '../constants/sets'
-import { arrowLeftIcon } from '../assets/icons'
+import { useState, useContext } from 'react';
+import {SETS} from '../../constants/sets'
+import { arrowLeftIcon } from '../../assets/icons'
+import {ThemeContext} from '../../context/index';
+
 
 function Set(){
 
+    const {setBackground} = useContext(ThemeContext);
     const[detail, setDetail] = useState(false);
     const[sets, setSets] = useState(SETS);
 
@@ -12,7 +15,8 @@ function Set(){
         setSets(sets.find((item) => item.set === set).scenes);
     }
     function handleSetBackground(background){
-
+        console.log(background);
+        setBackground(background);
     }
 
     function handleResetSet(){

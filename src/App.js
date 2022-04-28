@@ -1,11 +1,14 @@
 import {cafe1Day} from "./assets/videos/index"
 import Navbar from "./component/Navbar";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import { prevIcon, nextIcon, pauseIcon, playIcon} from './assets/icons';
 import CHILL_LINKS from "./constants/links/chill"
-import Background from "./component/Background";
+import Menu from "./component/menu/Menu";
+import {ThemeContext} from './context'
 
 function App() {
+
+  const { background } = useContext(ThemeContext);
 
   const [playing, setPlaying] = useState(false);
   const controlRef = useRef();
@@ -68,7 +71,7 @@ function App() {
     <div className="relative min-h-screen">
       <Navbar/>
       {/* Background Video */}
-      <video src={cafe1Day} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full min-h-full object-cover lg:aspect-video" 
+      <video src={background} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full min-h-full object-cover lg:aspect-video" 
       autoPlay muted loop/>
 
       {/* Controls Audio */}
@@ -90,7 +93,7 @@ function App() {
         ref={controlRef}
         />
       {/* Control Background */}
-      <Background/>
+      <Menu/>
     </div>
   );
 }
