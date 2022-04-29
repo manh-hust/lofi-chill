@@ -17,7 +17,15 @@ function Set(){
     }
     function handleSetBackground(scene){
         const backgroundLink = BACKGROUND_LINKS_LIST.find(item => item.set === detail && item.scene === scene)
-        setBackground({...background, link1: backgroundLink.link});
+
+        setBackground({
+            ...background, 
+            link1: backgroundLink.link,
+            set: backgroundLink.set,
+            scene: scene,
+            rainy: false,
+            day: true  
+        });
     }
     // Handle nút trở lại menu bg
     function handleResetSet(){

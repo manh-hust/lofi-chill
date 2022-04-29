@@ -279,14 +279,14 @@ export const BACKGROUND_LINKS_LIST = [
 		scene: 'scene2',
 		day: true,
 		rainy: false,
-		link: 'https://s3.us-east-2.amazonaws.com/lofi.co/lofi.co/scenes/study/beach%20scene.mp4',
+		link: 'https://s3.us-east-2.amazonaws.com/lofi.co/lofi.co/scenes/study/snow%20scene%20wo%20snow.mp4',
 	},
 	{
 		set: 'desk',
 		scene: 'scene3',
 		day: true,
 		rainy: false,
-		link: 'https://s3.us-east-2.amazonaws.com/lofi.co/lofi.co/scenes/study/snow%20scene%20wo%20snow.mp4',
+		link: 'https://s3.us-east-2.amazonaws.com/lofi.co/lofi.co/scenes/study/beach%20scene.mp4',
 	},
 	{
 		set: 'forest',

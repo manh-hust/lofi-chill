@@ -3,10 +3,10 @@ import { moodIcon, templateIcon, setIcon, focusIcon } from '../../assets/icons';
 import Set from './Set';
 
 
-function MenuItem({icon, handleActive, active, line, rounded, small}){
+function MenuItem({icon, handleActive, active, line, top, bottom, small}){
    
     return(
-        <div className={`relative w-[70px] h-[70px] cursor-pointer ${rounded ? `rounded-${rounded}-full` : ''} ${active ? 'bg-bg-menu' : ''}`}
+        <div className={`relative w-[70px] h-[70px] cursor-pointer ${top ? `rounded-t-full` : ''} ${bottom ? `rounded-b-full` : ''} ${active ? 'bg-bg-menu' : ''}`}
         onClick={handleActive} 
         >
             <div className={small ? 'absolute w-8 h-8 top-4 left-5' : 'absolute w-[115px] h-[115px] -top-5 -left-[22px]'}>
@@ -18,9 +18,8 @@ function MenuItem({icon, handleActive, active, line, rounded, small}){
     )
 }
 
-
-
 function Menu (){
+
     const initActive = {mood: false, template: false, sets: false, focus: false}
     const [active, setActive] = useState(initActive);
    
@@ -30,7 +29,7 @@ function Menu (){
 
                 <MenuItem
                     icon={moodIcon}
-                    rounded ={'t'}
+                    top={true}
                     line={true}
                     active={active.mood}
                     handleActive={() => {setActive({...initActive, mood:!active.mood })}}
@@ -49,7 +48,7 @@ function Menu (){
                 />
                  <MenuItem
                     icon={focusIcon}
-                    rounded ={'b'}
+                    bottom={true}
                     small={true}
                     active={active.focus}
                     handleActive={() => {setActive({...initActive, focus:!active.focus })}}

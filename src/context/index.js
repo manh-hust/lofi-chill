@@ -1,14 +1,21 @@
 import { useState, createContext, useRef } from "react";
-import {cafe1Day} from "../assets/videos/index"
 import CHILL_LINKS from '../constants/links/chill'
+import {BACKGROUND_LINKS_LIST} from "../constants/links/videos"
 
 const ThemeContext = createContext();
 
 function ThemeProvider({children}){
     
     const [background, setBackground] = useState({
-        link1: cafe1Day,
-        show: true
+        show: true,
+        day: true,
+        rainy: false,
+        set: null,
+        scene: null,
+        link1: BACKGROUND_LINKS_LIST.find(
+			(item) =>
+				item.set === 'chill' && item.scene === 'scene1' && item.day === true && item.rainy === false
+		).link,
     })
     const controlRef = useRef();
 
