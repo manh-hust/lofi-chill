@@ -2,7 +2,8 @@ import { useState, useContext } from 'react';
 import {SETS} from '../../constants/sets'
 import { arrowLeftIcon } from '../../assets/icons'
 import {ThemeContext} from '../../context/index';
-import {BACKGROUND_LINKS_LIST} from '../../constants/links/videos'
+import { newBackground } from '../../untils/newBackground'
+
 
 function Set(){
 
@@ -15,17 +16,15 @@ function Set(){
         setDetail(set);
         setSets(sets.find((item) => item.set === set).scenes);
     }
-    function handleSetBackground(scene){
-        const backgroundLink = BACKGROUND_LINKS_LIST.find(item => item.set === detail && item.scene === scene)
-
-        setBackground({
-            ...background, 
-            link1: backgroundLink.link,
-            set: backgroundLink.set,
-            scene: scene,
-            rainy: false,
-            day: true  
-        });
+    function handleSetBackground(item){
+        const condition = {
+            set: detail,
+            scene: item.scene,
+            day: background.set === detail ? background.day : true,
+            rainy: background.set === detail ? background.rainy : false,
+        }
+        const newBg = newBackground(background, condition);
+        setBackground(newBg);
     }
     // Handle nút trở lại menu bg
     function handleResetSet(){
@@ -52,7 +51,7 @@ function Set(){
             <div className="max-h-[500px] text-center overflow-auto rounded-lg">
                 {sets.map((item) => (
                     <div
-                        onClick={ detail ?(() => handleSetBackground(item.scene)) : (() => handleDetail(item.set))}
+                        onClick={ detail ?(() => handleSetBackground(item)) : (() => handleDetail(item.set))}
                         key={item.link}
                         className='mt-2 cursor-pointer transition-all duration-200 ease-linear hover:opacity-50'
                     >
