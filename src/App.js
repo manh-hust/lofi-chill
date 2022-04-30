@@ -7,7 +7,7 @@ function App() {
 
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-transparent-b-80">
       <Navbar/>
       <div className="absolute inset-0">
         <Background/>

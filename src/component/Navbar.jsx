@@ -24,7 +24,7 @@ function Navbar(){
 
     return(
         <>
-            <div className="fixed w-screen h-20 z-10 mt-4">
+            <div className="fixed w-screen h-20 z-10">
                 <div className='flex justify-between mx-16 items-center'>
                     <div>
                         <img src={logoImg} className="h-[100px]" alt='logo'/>

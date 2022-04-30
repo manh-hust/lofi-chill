@@ -21,3 +21,10 @@
 # Thứ 3, 4, 5 - 26, 27, 28/04/2022
 - Css menu
 - Handle set background
+# Thứ 6 - 29/4/2022
+- Handle mood day-night, rain-sun
+- Chuyển background mượt
+- Tách nhỏ component App.js
+# Thứ 7 -30/4/2022
+- Thêm Menu-Mood các chế độ nhạc
+- Các tiếng ồn dễ chịu
