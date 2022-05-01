@@ -25,6 +25,6 @@
 - Handle mood day-night, rain-sun
 - Chuyển background mượt
 - Tách nhỏ component App.js
-# Thứ 7 -30/4/2022
+# Thứ 7, CN, T2 - 30/4/2022, 1,2/5
 - Thêm Menu-Mood các chế độ nhạc
 - Các tiếng ồn dễ chịu

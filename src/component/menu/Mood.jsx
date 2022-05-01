@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SLEEPY_LINKS, CHILL_LINKS, JAZZY_LINKS, NOISE_ICONS } from '../../constants';
+// import { SLEEPY_LINKS, CHILL_LINKS, JAZZY_LINKS, NOISE_ICONS } from '../../constants';
 import { sleepyIcon, jazzyIcon, chillIcon, volumeMinIcon, volumeMaxIcon } from '../../assets/icons';
 
 function MoodItem({ iconSrc, label, className, isActive, handleClick }) {
@@ -14,13 +14,13 @@ function MoodItem({ iconSrc, label, className, isActive, handleClick }) {
 					alt='mood-icon'
 					className={`h-full w-full transition duration-200 ease-out ${
 						isActive ? 'opacity-100 brightness-100' : 'opacity-10 brightness-200'
-					}`}
+					}	group-hover:opacity-50`}
 				/>
 			</div>
 			<p
-				className={`absolute bottom-2 left-1/2  font-semibold transition duration-200 ease-out ${
+				className={`absolute bottom-5 left-1/2  font-semibold transition duration-200 ease-out ${
 					isActive ? 'opacity-100 brightness-100' : 'opacity-10 brightness-200'
-				}`}
+				}	group-hover:opacity-50`}
 			>
 				{label}
 			</p>
