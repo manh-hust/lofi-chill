@@ -7,7 +7,7 @@ const ThemeContext = createContext();
 function ThemeProvider({children}){
     
     const [background, setBackground] = useState(() => {
-        const link = BACKGROUND_LINKS_LIST.find(item => item.set === 'chill' && item.scene === 'scene1' &&
+        const link = BACKGROUND_LINKS_LIST.find(item => item.set === 'desk' && item.scene === 'scene1' &&
         item.day === true && item.rainy === false).link
         return{
             show: true,
@@ -20,18 +20,25 @@ function ThemeProvider({children}){
         }
     })
     const controlRef = useRef();
+    // Mood hiện tại phát nhạc
+    const [currentMood, setCurrentMood] = useState(CHILL_LINKS)
 
     const [currentAudio, setCurrentAudio] = useState(() => {
-        const random = Math.floor(Math.random() * CHILL_LINKS.length )
+        const random = Math.floor(Math.random() * currentMood.length )
         return {
-          currentAu: CHILL_LINKS[random],
+          currentAu: currentMood[random],
           index: random
         };
     })
+
+    // Active các tab Mood-Menu
+    const initialTab = { sleepy: false, jazzy: false, chill: false, youtube: false };
+	const [moodTab, setMoodTab] = useState({ ...initialTab, chill: true });
+
     const [playing, setPlaying] = useState(false);
     const buttonP = useRef();
 
-
+    const noisesRefs = useRef([]);
 
     const value = {
         background,
@@ -41,7 +48,12 @@ function ThemeProvider({children}){
         setCurrentAudio,
         playing,
         setPlaying,
-        buttonP
+        buttonP,
+        currentMood,
+        setCurrentMood,
+        moodTab, 
+        setMoodTab,
+        noisesRefs
     }
 
     return(

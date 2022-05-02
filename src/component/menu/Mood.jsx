@@ -1,6 +1,8 @@
-import { useState } from 'react';
-// import { SLEEPY_LINKS, CHILL_LINKS, JAZZY_LINKS, NOISE_ICONS } from '../../constants';
+import { useState, useContext } from 'react';
+import { SLEEPY_LINKS, CHILL_LINKS, JAZZY_LINKS, NOISE_ICONS } from '../../constants';
 import { sleepyIcon, jazzyIcon, chillIcon, volumeMinIcon, volumeMaxIcon } from '../../assets/icons';
+import { ThemeContext } from '../../context';
+import ReactSlider from 'react-slider';
 
 function MoodItem({ iconSrc, label, className, isActive, handleClick }) {
 	return (
@@ -13,14 +15,14 @@ function MoodItem({ iconSrc, label, className, isActive, handleClick }) {
 					src={iconSrc}
 					alt='mood-icon'
 					className={`h-full w-full transition duration-200 ease-out ${
-						isActive ? 'opacity-100 brightness-100' : 'opacity-10 brightness-200'
-					}	group-hover:opacity-50`}
+						isActive ? 'opacity-100 brightness-100' : 'opacity-10 brightness-200 group-hover:opacity-50'
+					}`}
 				/>
 			</div>
 			<p
 				className={`absolute bottom-5 left-1/2  font-semibold transition duration-200 ease-out ${
-					isActive ? 'opacity-100 brightness-100' : 'opacity-10 brightness-200'
-				}	group-hover:opacity-50`}
+					isActive ? 'opacity-100 brightness-100' : 'opacity-10 brightness-200 group-hover:opacity-50'
+				}`}
 			>
 				{label}
 			</p>
@@ -31,45 +33,42 @@ function MoodItem({ iconSrc, label, className, isActive, handleClick }) {
 function Mood(){
 
 
-    const initialTab = { sleepy: false, jazzy: false, chill: false };
-	const [moodTab, setMoodTab] = useState({ ...initialTab, chill: true });
+	const {setCurrentMood, setCurrentAudio, setPlaying, moodTab, setMoodTab, controlRef, noisesRefs} = useContext(ThemeContext)
+    const initialTab = { sleepy: false, jazzy: false, chill: false, youtube: false };
 
-    const handleMoodType = (type) => {
-		// let newSong;
-		// setIsPlaying(true);
+	const handleMoodType = (type) => {
+		setPlaying(true);
 
 		switch (type) {
 			case 'sleepy':
 				setMoodTab({ ...initialTab, sleepy: true });
-				// newSong = randomMainSong(SLEEPY_LINKS, currentSong.index);
-				// setCurrentSong({
-				// 	...currentSong,
-				// 	list: SLEEPY_LINKS,
-				// 	index: newSong.index,
-				// 	link: newSong.link,
-				// });
+				setCurrentMood(SLEEPY_LINKS)
+				setCurrentAudio({
+					currentAu: SLEEPY_LINKS[0],
+					index: 0
+				})
+
 				break;
 
 			case 'jazzy':
 				setMoodTab({ ...initialTab, jazzy: true });
-				// newSong = randomMainSong(JAZZY_LINKS, currentSong.index);
-				// setCurrentSong({
-				// 	...currentSong,
-				// 	list: JAZZY_LINKS,
-				// 	index: newSong.index,
-				// 	link: newSong.link,
-				// });
+				setCurrentMood(JAZZY_LINKS)
+				setCurrentAudio({
+					currentAu: JAZZY_LINKS[0],
+					index: 0
+				})
 				break;
 
 			case 'chill':
 				setMoodTab({ ...initialTab, chill: true });
-				// newSong = randomMainSong(CHILL_LINKS, currentSong.index);
-				// setCurrentSong({
-				// 	...currentSong,
-				// 	list: CHILL_LINKS,
-				// 	index: newSong.index,
-				// 	link: newSong.link,
-				// });
+				setCurrentMood(CHILL_LINKS)	
+				setCurrentAudio({
+					currentAu: CHILL_LINKS[0],
+					index: 0
+				})
+				break;
+			case 'youtube':
+				setMoodTab({ ...moodTab, youtube: true });
 				break;
 
 			default:
@@ -78,10 +77,11 @@ function Mood(){
 	};
 
     return (
-        <div className='absolute right-[88px] w-[345px] bg-bg-menu rounded-3xl p-4 z-20'>
+        <div className='absolute right-[88px] w-[345px] bg-bg-menu rounded-3xl p-6 z-20'>
             <div className='mb-4 flex justify-between items-center'>
                 <h4 className='font-bold mb-4 text-xl text-white'>Mood</h4>
             </div>
+
             <div className='my-4 grid grid-cols-2 gap-y-2 gap-x-4 flex-wrap justify-between items-center text-white'>
                 <MoodItem
 					isActive={moodTab.sleepy}
@@ -104,7 +104,81 @@ function Mood(){
 					className='-left-8'
 					handleClick={() => handleMoodType('chill')}
 				/>
+				<MoodItem
+					isActive={moodTab.youtube}
+					iconSrc={'https://lifo-95316.web.app/assets/search.0845ee8a.svg'}
+					label='Youtube'
+					className='left-6 w-9 -top-10'
+					handleClick={() => handleMoodType('youtube')}
+				/>
             </div>
+
+			<div className="my-8 flex justify-between items-center">
+				<img src={volumeMinIcon} alt='volume-min' className='relative -top-1 left-1' />
+				<ReactSlider
+					className='h-3 w-[200px] bg-bg-200 rounded-full'
+					defaultValue={controlRef.current.volume * 50}
+					onChange={(value) => {
+						controlRef.current.volume = value / 100;
+					}}
+					renderTrack={(props, state) => (
+						<div
+							{...props}
+							className={`inset-y-0 rounded-full ${state.index === 0 ? 'bg-primary' : ''}`}
+							index={state.index}
+						/>
+					)}
+					renderThumb={(props) => (
+						<div
+							{...props}
+							className='-top-0.5 h-4 w-4 bg-white rounded-full cursor-pointer outline-none'
+						/>
+					)}
+				>
+				</ReactSlider>
+				<img src={volumeMaxIcon} alt='volume-max' className='relative -top-1 right-1' />
+			</div>
+			
+			<div className='mb-4 flex justify-between items-center'>
+                <h4 className='font-bold mb-4 text-xl text-white'>Background noises</h4>
+            </div>
+
+			<div className='max-h-[280px] border border-transparent-w-20 rounded-xl px-2 overflow-y-auto'>
+				{NOISE_ICONS.map((noise, index) => {
+					return(
+						<div key={index} className='my-4 flex justify-between items-center'>
+							<p className='text-sm opacity-40 text-white'>{noise.label}</p>
+
+							<ReactSlider
+								className='h-6 w-[148px] bg-bg-200 rounded-full mr-1'
+								defaultValue={0}
+								onBeforeChange={() => {
+									const thisAudio = noisesRefs.current[index];
+									if (thisAudio.paused) thisAudio.play();
+									if (thisAudio.muted) thisAudio.muted = false;
+								}}
+								onChange={(value) => {
+									noisesRefs.current[index].volume = value / 100;
+								}}
+								renderTrack={(props, state) => {
+									return (
+									<div
+										{...props}
+										className={`inset-y-0 rounded-full ${state.index === 0 ? 'bg-primary' : ''}`}
+										index={state.index}
+									/>
+								)}}
+								renderThumb={(props) => (
+									<div {...props} className='h-6 w-6 rounded-full cursor-pointer outline-none'>
+										<img src={noise.icon} alt='icon' />
+									</div>
+								)}
+							/>
+						</div>
+					)
+				})}
+			</div>
+			
         </div>
     )
 }

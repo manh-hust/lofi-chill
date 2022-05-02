@@ -1,7 +1,7 @@
 import {ThemeContext} from '../context'
 import { useContext} from 'react'
 import { prevIcon, nextIcon, pauseIcon, playIcon} from '../assets/icons';
-import CHILL_LINKS from '../constants/links/chill';
+import { NOISE_LINKS } from '../constants/links/noises'
 
 function Audio(){
 
@@ -10,7 +10,10 @@ function Audio(){
             setCurrentAudio,
             playing,
             setPlaying,
-            buttonP } = useContext(ThemeContext);
+            buttonP,
+            currentMood,
+            noisesRefs
+        } = useContext(ThemeContext);
 
     function handleControl(){
         if(playing){
@@ -27,14 +30,14 @@ function Audio(){
         setCurrentAudio({
         ...currentAudio,
         index: currentAudio.index - 1,
-        currentAu: CHILL_LINKS[currentAudio.index - 1]
+        currentAu: currentMood[currentAudio.index - 1]
         })
     }
     else{
         setCurrentAudio({
         ...currentAudio,
-        index: CHILL_LINKS.length - 1,
-        currentAu: CHILL_LINKS[CHILL_LINKS.length - 1]
+        index: currentMood.length - 1,
+        currentAu: currentMood[currentMood.length - 1]
         })
     }
     setPlaying(true);
@@ -42,16 +45,16 @@ function Audio(){
     }
 
     function handleNextAudio(){
-    if(currentAudio.index === CHILL_LINKS.length - 1){
+    if(currentAudio.index === currentMood.length - 1){
         setCurrentAudio({
         index: 0,
-        currentAu: CHILL_LINKS[0]
+        currentAu: currentMood[0]
         })
     }
     else{
         setCurrentAudio({
         index: currentAudio.index + 1,
-        currentAu: CHILL_LINKS[currentAudio.index + 1]
+        currentAu: currentMood[currentAudio.index + 1]
         })
     }
     setPlaying(true);
@@ -76,6 +79,19 @@ function Audio(){
             autoPlay
             ref={controlRef}
             />
+
+            {NOISE_LINKS.map((link, i) => (
+				<audio
+					key={i}
+					src={link}
+					ref={(el) => {
+						noisesRefs.current[i] = el;
+					}}
+					autoPlay
+					loop
+					muted
+				/>
+			))}
         </>
     )
 }
