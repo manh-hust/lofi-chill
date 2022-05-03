@@ -166,6 +166,7 @@ function Mood(){
 										{...props}
 										className={`inset-y-0 rounded-full ${state.index === 0 ? 'bg-primary' : ''}`}
 										index={state.index}
+										value ={noisesRefs.current[index].volume}
 									/>
 								)}}
 								renderThumb={(props) => (
