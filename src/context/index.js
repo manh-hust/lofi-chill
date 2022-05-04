@@ -4,6 +4,14 @@ import {BACKGROUND_LINKS_LIST} from "../constants/links/videos"
 
 const ThemeContext = createContext();
 
+function randomAudio(type){
+    const random = Math.floor(Math.random() * type.length )
+    return {
+        currentAu: type[random],
+        index: random
+      };
+}
+
 function ThemeProvider({children}){
     
     const [background, setBackground] = useState(() => {
@@ -22,15 +30,7 @@ function ThemeProvider({children}){
     const controlRef = useRef();
     // Mood hiện tại phát nhạc
     const [currentMood, setCurrentMood] = useState(CHILL_LINKS)
-
-    const [currentAudio, setCurrentAudio] = useState(() => {
-        const random = Math.floor(Math.random() * currentMood.length )
-        return {
-          currentAu: currentMood[random],
-          index: random
-        };
-    })
-
+    const [currentAudio, setCurrentAudio] = useState(randomAudio(currentMood))
     // Active các tab Mood-Menu
     const initialTab = { sleepy: false, jazzy: false, chill: false, youtube: false };
 	const [moodTab, setMoodTab] = useState({ ...initialTab, chill: true });
@@ -63,4 +63,4 @@ function ThemeProvider({children}){
     )
 }
 
-export  {ThemeProvider, ThemeContext};
+export  {ThemeProvider, ThemeContext, randomAudio};

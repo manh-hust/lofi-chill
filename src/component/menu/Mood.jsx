@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { SLEEPY_LINKS, CHILL_LINKS, JAZZY_LINKS, NOISE_ICONS } from '../../constants';
 import { sleepyIcon, jazzyIcon, chillIcon, volumeMinIcon, volumeMaxIcon } from '../../assets/icons';
-import { ThemeContext } from '../../context';
+import { ThemeContext, randomAudio } from '../../context';
 import ReactSlider from 'react-slider';
 
 function MoodItem({ iconSrc, label, className, isActive, handleClick }) {
@@ -43,29 +43,19 @@ function Mood(){
 			case 'sleepy':
 				setMoodTab({ ...initialTab, sleepy: true });
 				setCurrentMood(SLEEPY_LINKS)
-				setCurrentAudio({
-					currentAu: SLEEPY_LINKS[0],
-					index: 0
-				})
-
+				setCurrentAudio(randomAudio(SLEEPY_LINKS))
 				break;
 
 			case 'jazzy':
 				setMoodTab({ ...initialTab, jazzy: true });
 				setCurrentMood(JAZZY_LINKS)
-				setCurrentAudio({
-					currentAu: JAZZY_LINKS[0],
-					index: 0
-				})
+				setCurrentAudio(randomAudio(JAZZY_LINKS))
 				break;
 
 			case 'chill':
 				setMoodTab({ ...initialTab, chill: true });
 				setCurrentMood(CHILL_LINKS)	
-				setCurrentAudio({
-					currentAu: CHILL_LINKS[0],
-					index: 0
-				})
+				setCurrentAudio(randomAudio(CHILL_LINKS))
 				break;
 			case 'youtube':
 				setMoodTab({ ...moodTab, youtube: true });
@@ -158,7 +148,9 @@ function Mood(){
 									if (thisAudio.muted) thisAudio.muted = false;
 								}}
 								onChange={(value) => {
-									noisesRefs.current[index].volume = value / 100;
+
+									console.log(value);
+									return noisesRefs.current[index].volume = value / 100;
 								}}
 								renderTrack={(props, state) => {
 									return (
@@ -166,7 +158,6 @@ function Mood(){
 										{...props}
 										className={`inset-y-0 rounded-full ${state.index === 0 ? 'bg-primary' : ''}`}
 										index={state.index}
-										value ={noisesRefs.current[index].volume}
 									/>
 								)}}
 								renderThumb={(props) => (
