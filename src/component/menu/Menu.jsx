@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { moodIcon, templateIcon, setIcon, focusIcon } from '../../assets/icons';
+import Focus from './Focus';
 import Mood from './Mood';
 import Set from './Set';
 
@@ -57,6 +58,7 @@ function Menu (){
             </div>
             {active.sets && <Set/>}
             {active.mood && <Mood/>}
+            {active.focus && <Focus/>}
         </div>
     )
 }

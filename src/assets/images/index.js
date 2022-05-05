@@ -17,6 +17,8 @@ import homeRoom4Img from './home-room-4.jpg';
 import logoImg from './logo.gif';
 import oceanTales21Img from './ocean-tales-2-1.jpg';
 import oceanTales22Img from './ocean-tales-2-2.jpg';
+import setBookImg from './thumbnails/set-book.png'
+import setSpringImg from './thumbnails/set-spring.png'
 import setChillImg from './thumbnails/set-chill.png';
 import setNorthernImg from './thumbnails/set-northern.png';
 import setDeskImg from './thumbnails/set-desk.png';
@@ -43,6 +45,10 @@ import sceneVan2Img from './thumbnails/scene-van-2.png';
 import sceneSummer1Img from './thumbnails/scene-summer-1.png';
 import sceneSummer2Img from './thumbnails/scene-summer-2.png';
 import mosaicImg from './social-mosaic.svg';
+import sceneSpring1Img from './thumbnails/scene-spring-1.png';
+import sceneSpring2Img from './thumbnails/scene-spring-2.png';
+import sceneBook1Img from './thumbnails/scene-book-1.png';
+import sceneBook2Img from './thumbnails/scene-book-2.png';
 
 export {
 	cafe1Img,
@@ -71,6 +77,8 @@ export {
 	setOceanImg,
 	setCafeImg,
 	setVanImg,
+	setBookImg,
+	setSpringImg,
 	setSummerImg,
 	sceneChill1Img,
 	sceneChill2Img,
@@ -89,5 +97,9 @@ export {
 	sceneVan2Img,
 	sceneSummer1Img,
 	sceneSummer2Img,
+	sceneBook1Img,
+	sceneBook2Img,
+	sceneSpring1Img,
+	sceneSpring2Img,
 	mosaicImg,
 };

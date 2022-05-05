@@ -28,3 +28,9 @@
 # Thứ 7, CN, T2 - 30/4/2022, 1,2/5
 - Thêm Menu-Mood các chế độ nhạc
 - Các tiếng ồn dễ chịu
+# Thứ 3, T4 - 3,4/5
+- Handle các tiếng ồn
+# Thứ 5 - 5/5/2022
+- Add các video mới
+# Thứ 6, T7, CN - 6,7,8/5/2022
+- Làm đồng hồ pomodoro đơn giản nhất có thể

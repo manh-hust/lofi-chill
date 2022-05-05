@@ -1,0 +1,37 @@
+import { FOCUS_ICONS } from '../../constants';
+
+
+function Focus(){
+
+
+    return (
+        <div className='w-[345px] bg-bg-menu rounded-3xl z-20 p-4 mt-40 text-white'>
+            <h4 className='font-bold mb-4 text-xl'>Focus Mode</h4>
+
+            <div>
+                {FOCUS_ICONS.map((item) => (
+                    <div
+                        key={item.label}
+                        className='w-full flex items-center mt-3 py-2 px-4 bg-bg-200 rounded-xl cursor-pointer'
+                        // onClick={() => {
+                        //     if (currentSession.name) {
+                        //         setDraggableModalType({ ...draggableModalType, [item.modalType]: true });
+                        //     } else {
+                        //         item.modalType === 'tasks'
+                        //             ? setDraggableModalType({ ...draggableModalType, session: true })
+                        //             : setDraggableModalType({ ...draggableModalType, [item.modalType]: true });
+                        //     }
+                        //     setMenuTab(initialTab);
+                        // }}
+                    >
+                        <img src={item.icon} alt='icon' className='w-7 h-7' />
+                        <h6 className='mx-4 font-medium'>{item.label}</h6>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+
+export default Focus

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { SLEEPY_LINKS, CHILL_LINKS, JAZZY_LINKS, NOISE_ICONS } from '../../constants';
 import { sleepyIcon, jazzyIcon, chillIcon, volumeMinIcon, volumeMaxIcon } from '../../assets/icons';
 import { ThemeContext, randomAudio } from '../../context';
@@ -31,7 +31,6 @@ function MoodItem({ iconSrc, label, className, isActive, handleClick }) {
 }
 
 function Mood(){
-
 
 	const {setCurrentMood, setCurrentAudio, setPlaying, moodTab, setMoodTab, controlRef, noisesRefs} = useContext(ThemeContext)
     const initialTab = { sleepy: false, jazzy: false, chill: false, youtube: false };
@@ -141,7 +140,7 @@ function Mood(){
 
 							<ReactSlider
 								className='h-6 w-[148px] bg-bg-200 rounded-full mr-1'
-								defaultValue={0}
+								defaultValue={noisesRefs.current[index].volume * 100}
 								onBeforeChange={() => {
 									const thisAudio = noisesRefs.current[index];
 									if (thisAudio.paused) thisAudio.play();

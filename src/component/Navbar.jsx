@@ -8,7 +8,7 @@ import { newBackground } from '../untils/newBackground'
 
 function Navbar(){
 
-    const {background, setBackground} = useContext(ThemeContext);
+    const {background, setBackground, setFullScreen} = useContext(ThemeContext);
 
     function handleChangeBg(mode){
         const condition = {
@@ -21,6 +21,18 @@ function Navbar(){
 
 		setBackground(newBg);
 }
+    function handleFullScreen(){
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                setFullScreen(true);
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    setFullScreen(false);
+                }
+            }
+    }
+
 
     return(
         <>
@@ -37,7 +49,7 @@ function Navbar(){
                     </div>
                     <div className='flex justify-center items-center'>
                         {/* Switch Day */}
-                        {['chill', 'cafe'].includes(background.set) &&
+                        {['chill', 'cafe', 'book', 'spring'].includes(background.set) &&
                             <div className='transition-all duration-300 ease-in hover:opacity-50 '>
                                 <Switch
                                     onChange={() => handleChangeBg('day')}
@@ -87,7 +99,7 @@ function Navbar(){
                             </div>           
                         }
                         <button className='text-white font-bold text-lg mx-2'>
-                            <img src={fullscreenIcon} alt='full-screen' />
+                            <img src={fullscreenIcon} alt='full-screen' onClick={handleFullScreen} />
                         </button>
                         <button className='text-white font-bold text-lg mx-2'>
                             <img src={profileIcon} alt='profile' />

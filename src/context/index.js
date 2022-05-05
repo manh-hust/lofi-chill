@@ -40,6 +40,8 @@ function ThemeProvider({children}){
 
     const noisesRefs = useRef([]);
 
+    const [fullScreen, setFullScreen] = useState(false);
+
     const value = {
         background,
         setBackground,
@@ -53,7 +55,9 @@ function ThemeProvider({children}){
         setCurrentMood,
         moodTab, 
         setMoodTab,
-        noisesRefs
+        noisesRefs,
+        fullScreen,
+        setFullScreen
     }
 
     return(
