@@ -2,6 +2,7 @@ import Menu from "./component/menu/Menu";
 import Navbar from "./component/Navbar";
 import Audio from './component/Audio';
 import Background from "./component/Background";
+import ItemModal from "./component/modal/ItemModal";
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       </div>
       <Audio/>
       <Menu/>
+      <ItemModal/>
     </div>
   );
 }

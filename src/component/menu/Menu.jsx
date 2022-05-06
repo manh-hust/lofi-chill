@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { moodIcon, templateIcon, setIcon, focusIcon } from '../../assets/icons';
 import Focus from './Focus';
 import Mood from './Mood';
 import Set from './Set';
-
+import { ThemeContext } from '../../context'
 
 function MenuItem({icon, handleActive, active, line, top, bottom, small}){
    
@@ -22,8 +22,7 @@ function MenuItem({icon, handleActive, active, line, top, bottom, small}){
 
 function Menu (){
 
-    const initActive = {mood: false, template: false, sets: false, focus: false}
-    const [active, setActive] = useState(initActive);
+    const{initActive, active, setActive} = useContext(ThemeContext)
    
     return(
         <div className="fixed top-1/2 right-0 transform -translate-y-1/2 flex flex-row-reverse items-center z-50">

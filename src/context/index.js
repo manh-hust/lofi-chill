@@ -41,6 +41,17 @@ function ThemeProvider({children}){
     const noisesRefs = useRef([]);
 
     const [fullScreen, setFullScreen] = useState(false);
+    // Focus active
+    const initVisiableFocusType = {
+        pomodoro: false,
+        session: false,
+        notes: false,
+        history: false
+    }
+    const [visiableFocusType, setVisiableFocusType] = useState(initVisiableFocusType);
+    // Menu active
+    const initActive = {mood: false, template: false, sets: false, focus: false}
+    const [active, setActive] = useState(initActive);
 
     const value = {
         background,
@@ -57,7 +68,13 @@ function ThemeProvider({children}){
         setMoodTab,
         noisesRefs,
         fullScreen,
-        setFullScreen
+        setFullScreen,
+        initVisiableFocusType,
+        visiableFocusType,
+        setVisiableFocusType,
+        initActive,
+        active,
+        setActive
     }
 
     return(

@@ -41,7 +41,7 @@ export const NOISE_ICONS = [
 ];
 export const FOCUS_ICONS = [
 	{ label: 'Start Session', icon: startSessionIcon, modalType: 'session' },
-	{ label: 'Timer and Tasks', icon: tomatoIcon, modalType: 'tasks' },
+	{ label: 'Pomodoro', icon: tomatoIcon, modalType: 'pomodoro' },
 	{ label: 'Notes', icon: notesIcon, modalType: 'notes' },
 	{ label: 'History', icon: historyIcon, modalType: 'history' },
 ];
