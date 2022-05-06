@@ -21,7 +21,9 @@ import prevIcon from './prev.svg';
 import profileIcon from './profile.svg';
 import rainyIcon from './rainy.svg';
 import setIcon from './set.svg';
+import settingIcon from './setting.svg'
 import sleepyIcon from './sleepy.svg';
+import skipIcon from './skip.svg'
 import startSessionIcon from './start-session.svg';
 import sunIcon from './sun.svg';
 import sunnyIcon from './sunny.svg';
@@ -74,6 +76,8 @@ export {
 	profileIcon,
 	rainyIcon,
 	setIcon,
+	settingIcon,
+	skipIcon,
 	sleepyIcon,
 	startSessionIcon,
 	sunnyIcon,
