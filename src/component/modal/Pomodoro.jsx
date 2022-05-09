@@ -18,7 +18,7 @@ function Button({ big, css, text, active, handle, type}){
 function Pomodoro() {
 
     const [initTimes, setInitTime] = useState({
-        pomoTime: 1 * 60,
+        pomoTime: 0.2 * 60,
         breakTime: 5 * 60,
         longTime:  10 * 60
     });
@@ -30,18 +30,21 @@ function Pomodoro() {
 
     const[activeItem, setActiveItem] = useState(initActive); 
 
-    if(currentTime === 0)
-        setIsRunning(!isRunning)
+    var coundown;
+    // if(currentTime === 0){
+    //     setCurrentTime(initTimes.breakTime);
+    //     // setIsRunning(!isRunning)
+    //     // clearInterval(coundown);
+    // }
     
     useEffect(() => {
         
         if(!isRunning)
             return
             
-        const coundown = setInterval(() => {
+        coundown = setInterval(() => {
             setCurrentTime(prev => prev - 1);
         }, 1000)
-
            
         return () => {
             clearInterval(coundown);
