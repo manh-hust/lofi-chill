@@ -1,4 +1,4 @@
-import { useState, createContext, useRef } from "react";
+import { useState, createContext, useRef, useEffect } from "react";
 import CHILL_LINKS from '../constants/links/chill'
 import {BACKGROUND_LINKS_LIST} from "../constants/links/videos"
 
@@ -13,7 +13,6 @@ function randomAudio(type){
 }
 
 function ThemeProvider({children}){
-    
     const [background, setBackground] = useState(() => {
         const link = BACKGROUND_LINKS_LIST.find(item => item.set === 'desk' && item.scene === 'scene1' &&
         item.day === true && item.rainy === false).link
@@ -53,28 +52,63 @@ function ThemeProvider({children}){
     const initActive = {mood: false, template: false, sets: false, focus: false}
     const [active, setActive] = useState(initActive);
 
+
+
+    // Pomodoro
+    const initActiveFocus ={pomodoro: true, break: false, long: false};
+    const defaultTime = {pomoTime: 0.1, breakTime: 5, longTime: 10};
+    const defaultCycle = ['pomodoro', 'break','pomodoro', 'break','pomodoro', 'break', 'pomodoro', 'long'];
+    const [autoModePomo, setAutoModePomo] = useState(true);
+    const[activeItem, setActiveItem] = useState(initActiveFocus); 
+    const [initTimes, setInitTime] = useState({
+        pomoTime: defaultTime.pomoTime * 60,
+        breakTime: defaultTime.breakTime * 60,
+        longTime:  defaultTime.longTime * 60
+    });
+    const[currentTime, setCurrentTime] = useState(initTimes.pomoTime);
+    const[isRunning, setIsRunning] = useState(false);
+    useEffect(() => {
+        if(isRunning){
+            if(currentTime > 0){
+                var coundown = setInterval(() => {
+                    setCurrentTime(prev => prev - 1);
+                }, 1000)
+                   
+                return () => {
+                    clearInterval(coundown);
+                }
+            }
+            else{
+                setIsRunning(false);
+            }
+        }            
+    }, [isRunning, currentTime])
+
+    if(autoModePomo){
+        defaultCycle.forEach((item) => {
+            
+        })
+    }
+
     const value = {
-        background,
-        setBackground,
+        background, setBackground,
         controlRef,
-        currentAudio,
-        setCurrentAudio,
-        playing,
-        setPlaying,
+        currentAudio, setCurrentAudio,
+        playing, setPlaying,
         buttonP,
-        currentMood,
-        setCurrentMood,
-        moodTab, 
-        setMoodTab,
+        currentMood, setCurrentMood,
+        moodTab, setMoodTab,
         noisesRefs,
-        fullScreen,
-        setFullScreen,
+        fullScreen, setFullScreen,
         initVisiableFocusType,
-        visiableFocusType,
-        setVisiableFocusType,
+        visiableFocusType, setVisiableFocusType,
         initActive,
-        active,
-        setActive
+        active, setActive,
+        initTimes, setInitTime,
+        currentTime, setCurrentTime,
+        activeItem, setActiveItem,
+        isRunning, setIsRunning
+
     }
 
     return(

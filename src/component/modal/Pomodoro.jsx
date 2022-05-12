@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { arrowLeftIcon, closeIcon, settingIcon, skipIcon } from '../../assets/icons'
-
+import { useEffect, useState, useContext } from 'react';
+import { arrowLeftIcon, closeIcon, settingIcon, skipIcon, minusIcon, plusIcon } from '../../assets/icons'
+import {ThemeContext} from '../../context'
 
 function Button({ big, css, text, active, handle, type}){
     
@@ -15,42 +15,74 @@ function Button({ big, css, text, active, handle, type}){
     )
 }
 
+function ChangeTime({time, message}){
+    return(
+        <div className='w-1/3'>
+            <h5 className='font-semibold'>{message}</h5>
+            <div className='my-4 w-[140px] h-[50px] rounded-lg bg-bg-200 flex items-center justify-center'>
+                <img
+                    src={minusIcon}
+                    alt='minus'
+                    className='h-full w-1/3 p-4 duration-200 ease-in-out hover:bg-primary rounded-l-lg cursor-pointer'
+                />
+                <input
+                    type='number'
+                    min={1}
+                    value={time}
+                    className='w-1/3 h-full bg-bg-200 text-center'
+                />
+                <img
+                    src={plusIcon}
+                    alt='plus'
+                    className='h-full w-1/3 p-4 duration-200 ease-in-out hover:bg-primary rounded-r-lg cursor-pointer'
+                />
+            </div>
+        </div>
+    )
+}
+
+function SettingPomo({handleSwitch, handleClose}){
+    return (
+        <div className="absolute max-h-screen left-1/2 transform -translate-x-1/2 p-6 ">
+            <div className='w-[440px] flex flex-col justify-center items-center rounded-3xl bg-black text-white p-6'>
+                <div className='flex justify-between items-center w-full '>
+                    <div className='transition-all duration-200 ease-linear hover:opacity-50 
+                    cursor-pointer text-center flex items-center text-xl'
+                    onClick={handleSwitch}
+                    >
+                        <img src={arrowLeftIcon} alt='arrow-left-icon' className='mr-3 text-xl w-[8px]'/>
+                        <div>Back</div>
+                    </div>
+                    <div className='transition-all duration-200 ease-linear hover:opacity-50 cursor-pointer'
+                    onClick={handleClose}
+                    >
+                        <img src={closeIcon} alt="close-icon"/>
+                    </div>
+               
+                </div>
+
+                <div className='flex flex-col mt-8'>
+                    <ChangeTime message={'Pomodoro'} time={25}/>
+                    <ChangeTime message={'Break'} time={5}/>
+                    <ChangeTime message={'Long'} time={10}/>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 function Pomodoro() {
 
-    const [initTimes, setInitTime] = useState({
-        pomoTime: 0.2 * 60,
-        breakTime: 5 * 60,
-        longTime:  10 * 60
-    });
-
-    const[currentTime, setCurrentTime] = useState(initTimes.pomoTime);
-    const[isRunning, setIsRunning] = useState(false);
-
-    const initActive={pomodoro: true, break: false, long: false};
-
-    const[activeItem, setActiveItem] = useState(initActive); 
-
-    var coundown;
-    // if(currentTime === 0){
-    //     setCurrentTime(initTimes.breakTime);
-    //     // setIsRunning(!isRunning)
-    //     // clearInterval(coundown);
-    // }
-    
-    useEffect(() => {
-        
-        if(!isRunning)
-            return
-            
-        coundown = setInterval(() => {
-            setCurrentTime(prev => prev - 1);
-        }, 1000)
-           
-        return () => {
-            clearInterval(coundown);
-        }
-    }, [isRunning])
-
+    const [setting, setSetting] = useState(false);
+    const {
+        visiableFocusType, setVisiableFocusType, 
+        isRunning, setIsRunning,
+        activeItem, setActiveItem,
+        initTimes, setInitTime,
+        currentTime, setCurrentTime,
+        initActiveFocus
+    } = useContext(ThemeContext)
+ 
 
     const handleNextActive = () => {
         if(activeItem.pomodoro === true){
@@ -64,7 +96,7 @@ function Pomodoro() {
             setIsRunning(false);
         }
         if(activeItem.long === true){
-            setActiveItem(initActive);
+            setActiveItem({pomodoro: true, break: false, long: false});
             setCurrentTime(initTimes.pomoTime);
             setIsRunning(false);
         }
@@ -72,30 +104,40 @@ function Pomodoro() {
     const handleActive = (type) => {
         switch(type) {
             case 'pomodoro' :
-                setActiveItem(initActive);
+                setActiveItem({pomodoro: true, break: false, long: false});
                 setCurrentTime(initTimes.pomoTime);
                 setIsRunning(false);
                 break;
+
             case 'break' :
                 setActiveItem({pomodoro: false, break: true, long: false});
                 setCurrentTime(initTimes.breakTime);
                 setIsRunning(false);
                 break;
+
             case 'long' :
                 setActiveItem({pomodoro: false, break: false, long: true});
                 setCurrentTime(initTimes.longTime);
                 setIsRunning(false);
             default :
-
+                return
         }
     }
 
-    
+
     return (
         <div className="absolute max-h-screen top-4 left-1/2 transform -translate-x-1/2">
+            {setting ? 
+             <SettingPomo handleSwitch={() => setSetting(!setting) } handleClose={() => { setVisiableFocusType({...visiableFocusType, pomodoro: false})}}/> :
             <div className="p-6 w-[440px] flex flex-col justify-center items-center rounded-3xl bg-black text-white">
-                <h1 className="text-4xl font-medium	mb-8">Pomodoro</h1>
-
+                <div className='flex items-center'>
+                    <h1 className="text-4xl font-medium	mb-8">Pomodoro</h1>
+                    <div className="text-white absolute top-0 right-0 p-4 cursor-pointer"
+                        onClick={() => { setVisiableFocusType({...visiableFocusType, pomodoro: false})}}
+                    >
+                        <img src={closeIcon} alt="close-icon" />
+                    </div>
+                </div>
                 <div className="flex w-full rounded-full bg-bg-200 p-2 mb-8">
                     <Button text={'Pomodoro'} active={activeItem.pomodoro} big={true} type={'pomodoro'}
                     handle={() => {handleActive('pomodoro')}}
@@ -122,10 +164,13 @@ function Pomodoro() {
                     </div>
                 </div>
 
-                <div className='transition-all duration-200 ease-linear hover:opacity-50 mt-8 cursor-pointer'>
+                <div className='transition-all duration-200 ease-linear hover:opacity-50 mt-8 cursor-pointer'
+                    onClick={() => {setSetting(!setting)}}
+                >
                     <img src={settingIcon} alt='setting'/>
                 </div>
-            </div>
+            </div> 
+            }
         </div>
     )
 }

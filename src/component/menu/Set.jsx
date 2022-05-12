@@ -51,7 +51,7 @@ function Set(){
                 {sets.map((item) => (
                     <div
                         onClick={ detail ?(() => handleSetBackground(item)) : (() => handleDetail(item.set))}
-                        key={item.link}
+                        key={item.link || item.img}
                         className='mt-2 cursor-pointer transition-all duration-200 ease-linear hover:opacity-50'
                     >
                         <img src={item.img} alt='set' className='w-full rounded-xl animate-fadeIn1s' />

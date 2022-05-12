@@ -27,6 +27,8 @@ import skipIcon from './skip.svg'
 import startSessionIcon from './start-session.svg';
 import sunIcon from './sun.svg';
 import sunnyIcon from './sunny.svg';
+import plusIcon from './plus.svg'
+import minusIcon from './minus.svg'
 import templateIcon from './template.svg';
 import tomatoIcon from './tomato.svg';
 import twitterIcon from './twitter.svg';
@@ -67,6 +69,8 @@ export {
 	mailIcon,
 	mixModeIcon,
 	moodIcon,
+	plusIcon,
+	minusIcon,
 	nextIcon,
 	sunIcon,
 	notesIcon,
