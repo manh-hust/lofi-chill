@@ -56,8 +56,7 @@ function ThemeProvider({children}){
 
     // Pomodoro
     const initActiveFocus ={pomodoro: true, break: false, long: false};
-    const defaultTime = {pomoTime: 0.1, breakTime: 5, longTime: 10};
-    const defaultCycle = ['pomodoro', 'break','pomodoro', 'break','pomodoro', 'break', 'pomodoro', 'long'];
+    const [defaultTime, setDefaultTime] = useState({pomoTime: 1, breakTime: 5, longTime: 10});
     const [autoModePomo, setAutoModePomo] = useState(true);
     const[activeItem, setActiveItem] = useState(initActiveFocus); 
     const [initTimes, setInitTime] = useState({
@@ -84,12 +83,6 @@ function ThemeProvider({children}){
         }            
     }, [isRunning, currentTime])
 
-    if(autoModePomo){
-        defaultCycle.forEach((item) => {
-            
-        })
-    }
-
     const value = {
         background, setBackground,
         controlRef,
@@ -107,7 +100,8 @@ function ThemeProvider({children}){
         initTimes, setInitTime,
         currentTime, setCurrentTime,
         activeItem, setActiveItem,
-        isRunning, setIsRunning
+        isRunning, setIsRunning,
+        defaultTime,setDefaultTime
 
     }
 

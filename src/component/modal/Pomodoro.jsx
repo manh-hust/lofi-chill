@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { arrowLeftIcon, closeIcon, settingIcon, skipIcon, minusIcon, plusIcon } from '../../assets/icons'
 import {ThemeContext} from '../../context'
 
@@ -15,7 +15,10 @@ function Button({ big, css, text, active, handle, type}){
     )
 }
 
-function ChangeTime({time, message}){
+function ChangeTime({time, message, handlePlus, handleMinus, onChange}){
+
+    const inputRef = useRef();
+    console.log("Time: " ,time);
     return(
         <div className='w-1/3'>
             <h5 className='font-semibold'>{message}</h5>
@@ -24,24 +27,27 @@ function ChangeTime({time, message}){
                     src={minusIcon}
                     alt='minus'
                     className='h-full w-1/3 p-4 duration-200 ease-in-out hover:bg-primary rounded-l-lg cursor-pointer'
+                    onClick={handleMinus}
                 />
                 <input
-                    type='number'
-                    min={1}
                     value={time}
                     className='w-1/3 h-full bg-bg-200 text-center'
+                    ref={inputRef}
+                    onChange={() =>{ onChange(inputRef.current.value) }}
                 />
                 <img
                     src={plusIcon}
                     alt='plus'
                     className='h-full w-1/3 p-4 duration-200 ease-in-out hover:bg-primary rounded-r-lg cursor-pointer'
+                    onClick={handlePlus}
                 />
             </div>
         </div>
     )
 }
 
-function SettingPomo({handleSwitch, handleClose}){
+function SettingPomo({handleSwitch, handleClose, defaultTime, setDefaultTime, setCurrentTime }){
+
     return (
         <div className="absolute max-h-screen left-1/2 transform -translate-x-1/2 p-6 ">
             <div className='w-[440px] flex flex-col justify-center items-center rounded-3xl bg-black text-white p-6'>
@@ -62,9 +68,47 @@ function SettingPomo({handleSwitch, handleClose}){
                 </div>
 
                 <div className='flex flex-col mt-8'>
-                    <ChangeTime message={'Pomodoro'} time={25}/>
-                    <ChangeTime message={'Break'} time={5}/>
-                    <ChangeTime message={'Long'} time={10}/>
+                    <ChangeTime message={'Pomodoro'} time={defaultTime.pomoTime} 
+                    handleMinus={() => {
+                        if(defaultTime.pomoTime > 0){
+                            setDefaultTime({...defaultTime, pomoTime : parseInt(defaultTime.pomoTime) - 1})
+                            console.log("Default time: ",defaultTime);
+                            setCurrentTime(defaultTime.pomoTime*60);
+                        }
+                    }}
+                    handlePlus={() => {
+                        setDefaultTime({...defaultTime, pomoTime : parseInt(defaultTime.pomoTime) + 1})
+                        setCurrentTime(defaultTime.pomoTime*60);
+                    }}
+                    onChange={(value) => {
+                        setDefaultTime({...defaultTime, pomoTime : value})
+                        setCurrentTime(defaultTime.pomoTime*60);
+                    }}
+                    />
+                    <ChangeTime message={'Break'} time={defaultTime.breakTime}
+                     handleMinus={() => {
+                        if(defaultTime.breakTime > 0)
+                        setDefaultTime({...defaultTime, breakTime : parseInt(defaultTime.breakTime) - 1})
+                    }}
+                    handlePlus={() => {
+                        setDefaultTime({...defaultTime, breakTime : parseInt(defaultTime.breakTime) + 1})
+                    }}
+                    onChange={(value) => {
+                        setDefaultTime({...defaultTime, breakTime : value})
+                    }}
+                    />
+                    <ChangeTime message={'Long'} time={defaultTime.longTime}
+                     handleMinus={() => {
+                        if(defaultTime.longTime > 0)
+                        setDefaultTime({...defaultTime, longTime : parseInt(defaultTime.longTime) - 1})
+                    }}
+                    handlePlus={() => {
+                        setDefaultTime({...defaultTime, longTime : parseInt(defaultTime.longTime) + 1})
+                    }}
+                    onChange={(value) => {
+                        setDefaultTime({...defaultTime, longTime : value})
+                    }}
+                    />
                 </div>
             </div>
         </div>
@@ -80,24 +124,26 @@ function Pomodoro() {
         activeItem, setActiveItem,
         initTimes, setInitTime,
         currentTime, setCurrentTime,
-        initActiveFocus
+        initActiveFocus,
+        defaultTime, setDefaultTime
     } = useContext(ThemeContext)
- 
+    
+    
 
     const handleNextActive = () => {
         if(activeItem.pomodoro === true){
             setActiveItem({pomodoro: false, break: true, long: false});
-            setCurrentTime(initTimes.breakTime);
+            setCurrentTime(defaultTime.breakTime*60);
             setIsRunning(false);
         }
         if(activeItem.break === true){
             setActiveItem({pomodoro: false, break: false, long: true});
-            setCurrentTime(initTimes.longTime);
+            setCurrentTime(defaultTime.longTime*60);
             setIsRunning(false);
         }
         if(activeItem.long === true){
             setActiveItem({pomodoro: true, break: false, long: false});
-            setCurrentTime(initTimes.pomoTime);
+            setCurrentTime(defaultTime.pomoTime*60);
             setIsRunning(false);
         }
     }   
@@ -105,19 +151,19 @@ function Pomodoro() {
         switch(type) {
             case 'pomodoro' :
                 setActiveItem({pomodoro: true, break: false, long: false});
-                setCurrentTime(initTimes.pomoTime);
+                setCurrentTime(defaultTime.pomoTime*60);
                 setIsRunning(false);
                 break;
 
             case 'break' :
                 setActiveItem({pomodoro: false, break: true, long: false});
-                setCurrentTime(initTimes.breakTime);
+                setCurrentTime(defaultTime.breakTime*60);
                 setIsRunning(false);
                 break;
 
             case 'long' :
                 setActiveItem({pomodoro: false, break: false, long: true});
-                setCurrentTime(initTimes.longTime);
+                setCurrentTime(defaultTime.longTime*60);
                 setIsRunning(false);
             default :
                 return
@@ -128,7 +174,13 @@ function Pomodoro() {
     return (
         <div className="absolute max-h-screen top-4 left-1/2 transform -translate-x-1/2">
             {setting ? 
-             <SettingPomo handleSwitch={() => setSetting(!setting) } handleClose={() => { setVisiableFocusType({...visiableFocusType, pomodoro: false})}}/> :
+             <SettingPomo 
+                handleSwitch={() => setSetting(!setting) } 
+                handleClose={() => { setVisiableFocusType({...visiableFocusType, pomodoro: false})}}
+                defaultTime={defaultTime}
+                setDefaultTime={setDefaultTime}
+                setCurrentTime={setCurrentTime}
+            /> :
             <div className="p-6 w-[440px] flex flex-col justify-center items-center rounded-3xl bg-black text-white">
                 <div className='flex items-center'>
                     <h1 className="text-4xl font-medium	mb-8">Pomodoro</h1>
@@ -174,6 +226,8 @@ function Pomodoro() {
         </div>
     )
 }
+
+
 
 function convertTime(seconds){
 
