@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Lofi_M/static/css/main.74554cbe.css",
-    "main.js": "/Lofi_M/static/js/main.26f9f977.js",
+    "main.css": "/Lofi_M/static/css/main.c178dfeb.css",
+    "main.js": "/Lofi_M/static/js/main.aca8852d.js",
     "static/media/scene-summer-2.png": "/Lofi_M/static/media/scene-summer-2.ab53abdbf09420a79592.png",
     "static/media/social-mosaic.svg": "/Lofi_M/static/media/social-mosaic.3c5c4e4a02e5d698a75f7175a340ee73.svg",
     "static/media/scene-ocean-1.png": "/Lofi_M/static/media/scene-ocean-1.9733d4605897b047b0a2.png",
@@ -101,15 +101,17 @@
     "static/media/instagram.svg": "/Lofi_M/static/media/instagram.4ee7b6478a141e38ff7e69f1eecfdf13.svg",
     "static/media/x.svg": "/Lofi_M/static/media/x.a0f7dab02725acac422dd92566bf0263.svg",
     "static/media/close.svg": "/Lofi_M/static/media/close.ec10df3ee1f2f2e876c1d4465722feac.svg",
+    "static/media/plus.svg": "/Lofi_M/static/media/plus.2f500e073529b7b9a399a4d1ca96ef24.svg",
     "static/media/start-session.svg": "/Lofi_M/static/media/start-session.668feea67a08decbdcae6d20dc93ee14.svg",
     "static/media/skip.svg": "/Lofi_M/static/media/skip.76badcb866e9117e3b3d972915fcf7c9.svg",
     "static/media/check.svg": "/Lofi_M/static/media/check.829e5bed16eb5775ab286f6a904e2bba.svg",
+    "static/media/minus.svg": "/Lofi_M/static/media/minus.7faa7b3476bf97b4ef7888259cfc0d51.svg",
     "static/media/arrow-left.svg": "/Lofi_M/static/media/arrow-left.d6cbebf6027a50ebb60c1498195be54d.svg",
-    "main.74554cbe.css.map": "/Lofi_M/static/css/main.74554cbe.css.map",
-    "main.26f9f977.js.map": "/Lofi_M/static/js/main.26f9f977.js.map"
+    "main.c178dfeb.css.map": "/Lofi_M/static/css/main.c178dfeb.css.map",
+    "main.aca8852d.js.map": "/Lofi_M/static/js/main.aca8852d.js.map"
   },
   "entrypoints": [
-    "static/css/main.74554cbe.css",
-    "static/js/main.26f9f977.js"
+    "static/css/main.c178dfeb.css",
+    "static/js/main.aca8852d.js"
   ]
 }
