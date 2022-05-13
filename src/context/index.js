@@ -66,6 +66,7 @@ function ThemeProvider({children}){
     });
     const[currentTime, setCurrentTime] = useState(initTimes.pomoTime);
     const[isRunning, setIsRunning] = useState(false);
+
     useEffect(() => {
         if(isRunning){
             if(currentTime > 0){
@@ -81,7 +82,11 @@ function ThemeProvider({children}){
                 setIsRunning(false);
             }
         }            
-    }, [isRunning, currentTime])
+    }, [isRunning, currentTime]);
+
+    const [alarmOn, setAlarmOn] = useState(true);
+    const [autoRun, setAutoRun] = useState(true);
+
 
     const value = {
         background, setBackground,
@@ -101,8 +106,9 @@ function ThemeProvider({children}){
         currentTime, setCurrentTime,
         activeItem, setActiveItem,
         isRunning, setIsRunning,
-        defaultTime,setDefaultTime
-
+        defaultTime,setDefaultTime,
+        alarmOn, setAlarmOn,
+        autoRun, setAutoRun
     }
 
     return(

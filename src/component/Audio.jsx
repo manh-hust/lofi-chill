@@ -1,6 +1,6 @@
 import {ThemeContext} from '../context'
 import { useContext} from 'react'
-import { prevIcon, nextIcon, pauseIcon, playIcon} from '../assets/icons';
+import { prevIcon, nextIcon, pauseIcon, playIcon, clockIcon } from '../assets/icons';
 import { NOISE_LINKS } from '../constants/links/noises'
 
 function Audio(){
@@ -12,9 +12,16 @@ function Audio(){
             setPlaying,
             buttonP,
             currentMood,
-            noisesRefs
+            noisesRefs,
+            currentTime,
+            activeItem
         } = useContext(ThemeContext);
-
+    var activeItemTime;
+    for (const item in activeItem) {
+        if(activeItem[item] === true)
+            activeItemTime = jsUcfirst(item);    
+    }
+    
     function handleControl(){
         if(playing){
           controlRef.current.pause();
@@ -26,39 +33,39 @@ function Audio(){
     }
     
     function handlePrevAudio(){
-    if(currentAudio.index > 0){
-        setCurrentAudio({
-        ...currentAudio,
-        index: currentAudio.index - 1,
-        currentAu: currentMood[currentAudio.index - 1]
-        })
-    }
-    else{
-        setCurrentAudio({
-        ...currentAudio,
-        index: currentMood.length - 1,
-        currentAu: currentMood[currentMood.length - 1]
-        })
-    }
-    setPlaying(true);
-    controlRef.current.play();
+        if(currentAudio.index > 0){
+            setCurrentAudio({
+            ...currentAudio,
+            index: currentAudio.index - 1,
+            currentAu: currentMood[currentAudio.index - 1]
+            })
+        }
+        else{
+            setCurrentAudio({
+            ...currentAudio,
+            index: currentMood.length - 1,
+            currentAu: currentMood[currentMood.length - 1]
+            })
+        }
+        setPlaying(true);
+        controlRef.current.play();
     }
 
     function handleNextAudio(){
-    if(currentAudio.index === currentMood.length - 1){
-        setCurrentAudio({
-        index: 0,
-        currentAu: currentMood[0]
-        })
-    }
-    else{
-        setCurrentAudio({
-        index: currentAudio.index + 1,
-        currentAu: currentMood[currentAudio.index + 1]
-        })
-    }
-    setPlaying(true);
-    controlRef.current.play();
+        if(currentAudio.index === currentMood.length - 1){
+            setCurrentAudio({
+            index: 0,
+            currentAu: currentMood[0]
+            })
+        }
+        else{
+            setCurrentAudio({
+            index: currentAudio.index + 1,
+            currentAu: currentMood[currentAudio.index + 1]
+            })
+        }
+        setPlaying(true);
+        controlRef.current.play();
     }
     
     return (
@@ -79,7 +86,13 @@ function Audio(){
             autoPlay
             ref={controlRef}
             />
-
+            <div className='fixed bottom-6 right-6 flex items-center text-sm text-white italic 
+            bg-transparent-b-50 backdrop-blur-sm rounded-[20px] py-1.5 px-4 cursor-pointer text-[16px]'
+            >
+                    <p className='opacity-50'>{activeItemTime}/</p>
+					<img src={clockIcon} alt='clock' className='w-[18px] h-[18px] mx-2.5' />
+					<p className='opacity-50'>{convertTime(currentTime)}</p>
+            </div>
             {NOISE_LINKS.map((link, i) => (
 				<audio
 					key={i}
@@ -96,4 +109,25 @@ function Audio(){
     )
 }
 
+function convertTime(seconds){
+
+    var minus = Math.floor(seconds/60);
+    var second = seconds - minus * 60;
+    return `${toStringTime(minus)}:${toStringTime(second)}`;
+}
+
+function toStringTime(number){
+    if( number < 10 && number >= 0){
+        return `0${number}`;
+    }
+    else if( number < 0){
+        return '00';
+    }
+    else
+        return number.toString();
+}
+function jsUcfirst(string) 
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 export default Audio;

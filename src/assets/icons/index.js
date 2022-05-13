@@ -3,6 +3,7 @@ import borderBrIcon from './border-br.svg';
 import checkIcon from './check.svg';
 import chillIcon from './chill.svg';
 import closeIcon from './close.svg';
+import clockIcon from './clock.svg';
 import focusIcon from './focus.svg';
 import fullscreenIcon from './fullscreen.svg';
 import historyIcon from './history.svg';
@@ -59,6 +60,7 @@ export {
 	checkIcon,
 	chillIcon,
 	closeIcon,
+	clockIcon,
 	moonIcon,
 	focusIcon,
 	fullscreenIcon,

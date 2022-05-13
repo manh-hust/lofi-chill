@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { arrowLeftIcon, closeIcon, settingIcon, skipIcon, minusIcon, plusIcon } from '../../assets/icons'
 import {ThemeContext} from '../../context'
+import Switch from 'react-switch/dist/react-switch.dev.js';
 
 function Button({ big, css, text, active, handle, type}){
     
@@ -16,9 +17,7 @@ function Button({ big, css, text, active, handle, type}){
 }
 
 function ChangeTime({time, message, handlePlus, handleMinus, onChange}){
-
     const inputRef = useRef();
-    console.log("Time: " ,time);
     return(
         <div className='w-1/3'>
             <h5 className='font-semibold'>{message}</h5>
@@ -27,7 +26,7 @@ function ChangeTime({time, message, handlePlus, handleMinus, onChange}){
                     src={minusIcon}
                     alt='minus'
                     className='h-full w-1/3 p-4 duration-200 ease-in-out hover:bg-primary rounded-l-lg cursor-pointer'
-                    onClick={handleMinus}
+                    onClick={() => handleMinus()}
                 />
                 <input
                     value={time}
@@ -47,12 +46,13 @@ function ChangeTime({time, message, handlePlus, handleMinus, onChange}){
 }
 
 function SettingPomo({handleSwitch, handleClose, defaultTime, setDefaultTime, setCurrentTime }){
-
+    const {alarmOn, setAlarmOn, autoRun, setAutoRun} = useContext(ThemeContext);
     return (
         <div className="absolute max-h-screen left-1/2 transform -translate-x-1/2 p-6 ">
             <div className='w-[440px] flex flex-col justify-center items-center rounded-3xl bg-black text-white p-6'>
+                {/* Back button */}
                 <div className='flex justify-between items-center w-full '>
-                    <div className='transition-all duration-200 ease-linear hover:opacity-50 
+                    <div className='transition-all opacity-50 duration-200 ease-linear hover:opacity-80 
                     cursor-pointer text-center flex items-center text-xl'
                     onClick={handleSwitch}
                     >
@@ -66,13 +66,12 @@ function SettingPomo({handleSwitch, handleClose, defaultTime, setDefaultTime, se
                     </div>
                
                 </div>
-
+                {/* Change defaul time */}
                 <div className='flex flex-col mt-8'>
                     <ChangeTime message={'Pomodoro'} time={defaultTime.pomoTime} 
                     handleMinus={() => {
                         if(defaultTime.pomoTime > 0){
                             setDefaultTime({...defaultTime, pomoTime : parseInt(defaultTime.pomoTime) - 1})
-                            console.log("Default time: ",defaultTime);
                             setCurrentTime(defaultTime.pomoTime*60);
                         }
                     }}
@@ -110,13 +109,55 @@ function SettingPomo({handleSwitch, handleClose, defaultTime, setDefaultTime, se
                     }}
                     />
                 </div>
+                {/* Mode auto */}
+                <div className='flex w-full justify-center items-center mt-8'>
+                    <div className=''>
+                        <h5 className='font-semibold'>Play alarm?</h5>
+                        <Switch
+                            className='mx-4 mt-2'
+                            onChange={() => {
+                                setAlarmOn(!alarmOn)
+                            }}
+                            checked={alarmOn}
+                            uncheckedIcon={false}
+                            checkedIcon={true}
+                            handleDiameter={26}
+                            onHandleColor='#fff'
+                            offHandleColor='#fff'
+                            offColor='#14141d'
+                            onColor='#f3a952'
+                            height={30}
+                            width={56}
+                            activeBoxShadow='0px 0px 0px 0px transparent'
+                        />
+                    </div>
+                    <div className='text-center'>
+                        <h5 className='font-semibold'>Auto?</h5>
+                        <Switch
+                            className='mx-4 mt-2'
+                            onChange={() => {
+                                setAutoRun(!autoRun);
+                            }}
+                            checked={autoRun}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            handleDiameter={26}
+                            onHandleColor='#fff'
+                            offHandleColor='#fff'
+                            offColor='#14141d'
+                            onColor='#f3a952'
+                            height={30}
+                            width={56}
+                            activeBoxShadow='0px 0px 0px 0px transparent'
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     )
 }
 
 function Pomodoro() {
-
     const [setting, setSetting] = useState(false);
     const {
         visiableFocusType, setVisiableFocusType, 
@@ -127,7 +168,19 @@ function Pomodoro() {
         initActiveFocus,
         defaultTime, setDefaultTime
     } = useContext(ThemeContext)
-    
+    if(isRunning){
+        document.title = convertTime(currentTime)
+    }
+    else{
+        document.title = 'Lofi'
+    }
+
+    useEffect(() => {
+        if(setting){
+            setCurrentTime(defaultTime.pomoTime*60);
+            setActiveItem({pomodoro: true, break: false, long: false});
+        }
+    }, [defaultTime.pomoTime])
     
 
     const handleNextActive = () => {
@@ -170,13 +223,14 @@ function Pomodoro() {
         }
     }
 
-
     return (
         <div className="absolute max-h-screen top-4 left-1/2 transform -translate-x-1/2">
             {setting ? 
              <SettingPomo 
-                handleSwitch={() => setSetting(!setting) } 
-                handleClose={() => { setVisiableFocusType({...visiableFocusType, pomodoro: false})}}
+                handleSwitch={() => {setSetting(!setting);} } 
+                handleClose={() => { 
+                    setVisiableFocusType({...visiableFocusType, pomodoro: false});
+                }}
                 defaultTime={defaultTime}
                 setDefaultTime={setDefaultTime}
                 setCurrentTime={setCurrentTime}
