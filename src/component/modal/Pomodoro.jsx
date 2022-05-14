@@ -3,13 +3,13 @@ import { arrowLeftIcon, closeIcon, settingIcon, skipIcon, minusIcon, plusIcon } 
 import {ThemeContext} from '../../context'
 import Switch from 'react-switch/dist/react-switch.dev.js';
 
-function Button({ big, css, text, active, handle, type}){
+function Button({ big, css, text, active, handle}){
     
     return(
-        <div className={`${big ? 'w-1/3' : 'w-24 font-medium mx-2'} ${css} text white cursor-pointer`}>
-            <div className={`${active ? 'bg-primary text-black' : 'text-current'} text-center rounded-full py-1`}
-                onClick={handle}
-            >
+        <div className={`${big ? 'w-1/3' : 'w-24 font-medium mx-2'} ${css} text white cursor-pointer`}
+            onClick={handle}
+        >
+            <div className={`${active ? 'bg-primary text-black' : 'text-current'} text-center rounded-full py-1`}>
                 {text}
             </div>
         </div>
@@ -46,7 +46,11 @@ function ChangeTime({time, message, handlePlus, handleMinus, onChange}){
 }
 
 function SettingPomo({handleSwitch, handleClose, defaultTime, setDefaultTime, setCurrentTime }){
-    const {alarmOn, setAlarmOn, autoRun, setAutoRun} = useContext(ThemeContext);
+    const {
+        alarmOn, setAlarmOn, 
+        autoRun, setAutoRun, 
+        setInitTimesAuto
+    } = useContext(ThemeContext);
     return (
         <div className="absolute max-h-screen left-1/2 transform -translate-x-1/2 p-6 ">
             <div className='w-[440px] flex flex-col justify-center items-center rounded-3xl bg-black text-white p-6'>
@@ -76,6 +80,7 @@ function SettingPomo({handleSwitch, handleClose, defaultTime, setDefaultTime, se
                         }
                     }}
                     handlePlus={() => {
+                        if(!defaultTime.pomoTime) setDefaultTime({...defaultTime, pomoTime : 0});
                         setDefaultTime({...defaultTime, pomoTime : parseInt(defaultTime.pomoTime) + 1})
                         setCurrentTime(defaultTime.pomoTime*60);
                     }}
@@ -137,6 +142,7 @@ function SettingPomo({handleSwitch, handleClose, defaultTime, setDefaultTime, se
                             className='mx-4 mt-2'
                             onChange={() => {
                                 setAutoRun(!autoRun);
+                                setInitTimesAuto({pomoTimes: 0, breakTimes: 0, longTimes: 0})
                             }}
                             checked={autoRun}
                             uncheckedIcon={false}
@@ -159,65 +165,60 @@ function SettingPomo({handleSwitch, handleClose, defaultTime, setDefaultTime, se
 
 function Pomodoro() {
     const [setting, setSetting] = useState(false);
+    const [reset, setReset] = useState(false);
     const {
         visiableFocusType, setVisiableFocusType, 
         isRunning, setIsRunning,
         activeItem, setActiveItem,
-        initTimes, setInitTime,
         currentTime, setCurrentTime,
         initActiveFocus,
-        defaultTime, setDefaultTime
+        defaultTime, setDefaultTime,
+        setInitTimesAuto,
+        setAutoRun
     } = useContext(ThemeContext)
+
     if(isRunning){
         document.title = convertTime(currentTime)
     }
     else{
         document.title = 'Lofi'
     }
-
     useEffect(() => {
-        if(setting){
+        if(setting || reset){
             setCurrentTime(defaultTime.pomoTime*60);
-            setActiveItem({pomodoro: true, break: false, long: false});
+            setActiveItem({...initActiveFocus, pomodoro: true});
         }
-    }, [defaultTime.pomoTime])
+    }, [defaultTime, reset])
     
+    function setCurrentAndActiveTime(type, time){
+        setActiveItem({...initActiveFocus, [type]: true});
+        setCurrentTime(time*60);
+        setIsRunning(false);
+    }
 
     const handleNextActive = () => {
         if(activeItem.pomodoro === true){
-            setActiveItem({pomodoro: false, break: true, long: false});
-            setCurrentTime(defaultTime.breakTime*60);
-            setIsRunning(false);
+            setCurrentAndActiveTime('break', defaultTime.breakTime);
         }
         if(activeItem.break === true){
-            setActiveItem({pomodoro: false, break: false, long: true});
-            setCurrentTime(defaultTime.longTime*60);
-            setIsRunning(false);
+            setCurrentAndActiveTime('long', defaultTime.longTime);
         }
         if(activeItem.long === true){
-            setActiveItem({pomodoro: true, break: false, long: false});
-            setCurrentTime(defaultTime.pomoTime*60);
-            setIsRunning(false);
+            setCurrentAndActiveTime('pomodoro', defaultTime.pomoTime);
         }
     }   
     const handleActive = (type) => {
         switch(type) {
             case 'pomodoro' :
-                setActiveItem({pomodoro: true, break: false, long: false});
-                setCurrentTime(defaultTime.pomoTime*60);
-                setIsRunning(false);
+                setCurrentAndActiveTime('pomodoro', defaultTime.pomoTime);
                 break;
 
             case 'break' :
-                setActiveItem({pomodoro: false, break: true, long: false});
-                setCurrentTime(defaultTime.breakTime*60);
-                setIsRunning(false);
+                setCurrentAndActiveTime('break', defaultTime.breakTime);
                 break;
 
             case 'long' :
-                setActiveItem({pomodoro: false, break: false, long: true});
-                setCurrentTime(defaultTime.longTime*60);
-                setIsRunning(false);
+                setCurrentAndActiveTime('long', defaultTime.longTime);
             default :
                 return
         }
@@ -245,13 +246,13 @@ function Pomodoro() {
                     </div>
                 </div>
                 <div className="flex w-full rounded-full bg-bg-200 p-2 mb-8">
-                    <Button text={'Pomodoro'} active={activeItem.pomodoro} big={true} type={'pomodoro'}
+                    <Button text={'Pomodoro'} active={activeItem.pomodoro} big={true}
                     handle={() => {handleActive('pomodoro')}}
                     />
-                    <Button text={'Short Break'} active={activeItem.break}  big={true} type={'short-break'}
+                    <Button text={'Short Break'} active={activeItem.break}  big={true}
                     handle={() => {handleActive('break')}}
                     />
-                    <Button text={'Long Break'} active={activeItem.long} big={true} type={'long-break'}
+                    <Button text={'Long Break'} active={activeItem.long} big={true}
                     handle={() => {handleActive('long')}}
                     />
                 </div>
@@ -270,10 +271,25 @@ function Pomodoro() {
                     </div>
                 </div>
 
-                <div className='transition-all duration-200 ease-linear hover:opacity-50 mt-8 cursor-pointer'
-                    onClick={() => {setSetting(!setting)}}
-                >
-                    <img src={settingIcon} alt='setting'/>
+                <div className='flex flex-row items-center mt-12 mb-4 w-full relative'>
+                    <Button text={'Reset'} big={true} 
+                    css={`transition-all duration-200 ease-linear hover:opacity-50  min-w-[120px] 
+                    border border-primary flex justify-center items-center py-1 px-4 bg-[rgba(243,169,82,.1)] 
+                    font-medium text-base text-primary rounded-full absolute left-1/2 -translate-x-1/2`}
+                    handle={() => {
+                        setActiveItem({...setActiveItem, pomodoro: true});
+                        setIsRunning(false);
+                        setDefaultTime({pomoTime: 25, breakTime: 5, longTime: 10});
+                        setInitTimesAuto({pomoTimes: 0, breakTimes: 0, longTimes: 0});
+                        setAutoRun(false);
+                        setReset(true);
+                    }}
+                    />
+                    <div className='transition-all duration-200 ease-linear hover:opacity-50 cursor-pointer absolute right-0'
+                        onClick={() => {setSetting(!setting)}}
+                    >
+                        <img src={settingIcon} alt='setting'/>
+                    </div>
                 </div>
             </div> 
             }
@@ -300,5 +316,6 @@ function toStringTime(number){
     else
         return number.toString();
 }
+
 
 export default  Pomodoro

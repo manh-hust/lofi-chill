@@ -55,10 +55,17 @@ function ThemeProvider({children}){
 
 
     // Pomodoro
-    const initActiveFocus ={pomodoro: true, break: false, long: false};
-    const [defaultTime, setDefaultTime] = useState({pomoTime: 1, breakTime: 5, longTime: 10});
-    const [autoModePomo, setAutoModePomo] = useState(true);
-    const[activeItem, setActiveItem] = useState(initActiveFocus); 
+    const initActiveFocus ={pomodoro: false, break: false, long: false};
+    const [defaultTime, setDefaultTime] = useState({
+            pomoTime: localStorage.getItem('pomodoro') || 0.1, 
+            breakTime: localStorage.getItem('break') || 5, 
+            longTime: localStorage.getItem('long') || 10
+        });
+    localStorage.setItem('pomodoro', defaultTime.pomoTime);
+    localStorage.setItem('break', defaultTime.breakTime);
+    localStorage.setItem('long', defaultTime.longTime);
+
+    const[activeItem, setActiveItem] = useState({...initActiveFocus, pomodoro: true}); 
     const [initTimes, setInitTime] = useState({
         pomoTime: defaultTime.pomoTime * 60,
         breakTime: defaultTime.breakTime * 60,
@@ -66,6 +73,11 @@ function ThemeProvider({children}){
     });
     const[currentTime, setCurrentTime] = useState(initTimes.pomoTime);
     const[isRunning, setIsRunning] = useState(false);
+
+    const [alarmOn, setAlarmOn] = useState(true);
+    const [autoRun, setAutoRun] = useState(localStorage.getItem('autoRun') === 'true');
+    localStorage.setItem('autoRun', autoRun);
+    const [initTimesAuto, setInitTimesAuto] = useState({pomoTimes: 0, breakTimes: 0, longTimes: 0});
 
     useEffect(() => {
         if(isRunning){
@@ -78,15 +90,36 @@ function ThemeProvider({children}){
                     clearInterval(coundown);
                 }
             }
-            else{
+            else if(currentTime === 0 && !autoRun){
                 setIsRunning(false);
+            }
+            else if(currentTime <= 0 && autoRun){
+                if(activeItem.pomodoro === true){
+                    if(initTimesAuto.pomoTimes === 3 ){
+                        setCurrentAndActiveTime('long', defaultTime.longTime);
+                    }
+                    else{
+                        setCurrentAndActiveTime('break', defaultTime.breakTime);
+                        setInitTimesAuto({...initTimesAuto, pomoTimes: initTimesAuto.pomoTimes + 1});
+                    }
+                }
+                else if(activeItem.break === true){
+                    setCurrentAndActiveTime('pomodoro', defaultTime.pomoTime);
+                    setInitTimesAuto({...initTimesAuto, breakTimes: initTimesAuto.breakTimes + 1});
+                }
+                else if(activeItem.long === true){
+                    setCurrentAndActiveTime('pomodoro', defaultTime.pomoTime);
+                    setInitTimesAuto({pomoTimes: 0, breakTimes: 0, longTimes: 0});
+                }
             }
         }            
     }, [isRunning, currentTime]);
 
-    const [alarmOn, setAlarmOn] = useState(true);
-    const [autoRun, setAutoRun] = useState(true);
 
+    function setCurrentAndActiveTime(type, time){
+        setActiveItem({...initActiveFocus, [type]: true});
+        setCurrentTime(time * 60);
+    }
 
     const value = {
         background, setBackground,
@@ -108,7 +141,8 @@ function ThemeProvider({children}){
         isRunning, setIsRunning,
         defaultTime,setDefaultTime,
         alarmOn, setAlarmOn,
-        autoRun, setAutoRun
+        autoRun, setAutoRun,
+        setInitTimesAuto
     }
 
     return(
@@ -117,5 +151,7 @@ function ThemeProvider({children}){
         </ThemeContext.Provider>
     )
 }
+
+
 
 export  {ThemeProvider, ThemeContext, randomAudio};

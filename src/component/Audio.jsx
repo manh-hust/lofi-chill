@@ -14,7 +14,9 @@ function Audio(){
             currentMood,
             noisesRefs,
             currentTime,
-            activeItem
+            activeItem,
+            setVisiableFocusType, initVisiableFocusType
+
         } = useContext(ThemeContext);
     var activeItemTime;
     for (const item in activeItem) {
@@ -88,6 +90,7 @@ function Audio(){
             />
             <div className='fixed bottom-6 right-6 flex items-center text-sm text-white italic 
             bg-transparent-b-50 backdrop-blur-sm rounded-[20px] py-1.5 px-4 cursor-pointer text-[16px]'
+            onClick={() => { setVisiableFocusType({...initVisiableFocusType, pomodoro: true})}}
             >
                     <p className='opacity-50'>{activeItemTime}/</p>
 					<img src={clockIcon} alt='clock' className='w-[18px] h-[18px] mx-2.5' />
