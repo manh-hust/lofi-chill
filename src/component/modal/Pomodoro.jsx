@@ -188,7 +188,7 @@ function Pomodoro() {
             setCurrentTime(defaultTime.pomoTime*60);
             setActiveItem({...initActiveFocus, pomodoro: true});
         }
-    }, [defaultTime, reset])
+    }, [defaultTime, reset, initActiveFocus, setActiveItem, setting, setCurrentTime]);
     
     function setCurrentAndActiveTime(type, time){
         setActiveItem({...initActiveFocus, [type]: true});
@@ -219,6 +219,7 @@ function Pomodoro() {
 
             case 'long' :
                 setCurrentAndActiveTime('long', defaultTime.longTime);
+                break;
             default :
                 return
         }

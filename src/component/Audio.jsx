@@ -2,6 +2,7 @@ import {ThemeContext} from '../context'
 import { useContext} from 'react'
 import { prevIcon, nextIcon, pauseIcon, playIcon, clockIcon } from '../assets/icons';
 import { NOISE_LINKS } from '../constants/links/noises'
+import { ALARM_LINKS } from '../constants/links/alarm'
 
 function Audio(){
 
@@ -15,9 +16,10 @@ function Audio(){
             noisesRefs,
             currentTime,
             activeItem,
-            setVisiableFocusType, initVisiableFocusType
-
+            setVisiableFocusType, initVisiableFocusType,
+            refAlarm
         } = useContext(ThemeContext);
+    // Lấy tên của chế độ đồng hồ đang chạy   
     var activeItemTime;
     for (const item in activeItem) {
         if(activeItem[item] === true)
@@ -83,11 +85,13 @@ function Audio(){
                     <img src={nextIcon} onClick={handleNextAudio} alt="icon" className='mx-2 cursor-pointer'/>
                 </div>
             </div>
+            {/* Bài nhạc chính */}
             <audio src={currentAudio.currentAu}
             onEnded={handleNextAudio}
             autoPlay
             ref={controlRef}
             />
+            {/* Đồng hồ nhở góc dưới bên phải */}
             <div className='fixed bottom-6 right-6 flex items-center text-sm text-white italic 
             bg-transparent-b-50 backdrop-blur-sm rounded-[20px] py-1.5 px-4 cursor-pointer text-[16px]'
             onClick={() => { setVisiableFocusType({...initVisiableFocusType, pomodoro: true})}}
@@ -96,6 +100,7 @@ function Audio(){
 					<img src={clockIcon} alt='clock' className='w-[18px] h-[18px] mx-2.5' />
 					<p className='opacity-50'>{convertTime(currentTime)}</p>
             </div>
+
             {NOISE_LINKS.map((link, i) => (
 				<audio
 					key={i}
@@ -108,6 +113,11 @@ function Audio(){
 					muted
 				/>
 			))}
+
+            <audio
+                src={ALARM_LINKS[0].link}
+                ref={refAlarm}
+            />
         </>
     )
 }
