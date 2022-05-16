@@ -177,12 +177,7 @@ function Pomodoro() {
         setAutoRun
     } = useContext(ThemeContext)
 
-    if(isRunning){
-        document.title = convertTime(currentTime)
-    }
-    else{
-        document.title = 'Lofi'
-    }
+  
     useEffect(() => {
         if(setting || reset){
             setCurrentTime(defaultTime.pomoTime*60);
@@ -297,7 +292,6 @@ function Pomodoro() {
         </div>
     )
 }
-
 
 
 function convertTime(seconds){
