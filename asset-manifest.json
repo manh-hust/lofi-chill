@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Lofi_M/static/css/main.a281ebec.css",
-    "main.js": "/Lofi_M/static/js/main.03f611b7.js",
+    "main.js": "/Lofi_M/static/js/main.80d82919.js",
     "static/media/scene-summer-2.png": "/Lofi_M/static/media/scene-summer-2.ab53abdbf09420a79592.png",
     "static/media/social-mosaic.svg": "/Lofi_M/static/media/social-mosaic.3c5c4e4a02e5d698a75f7175a340ee73.svg",
     "static/media/scene-ocean-1.png": "/Lofi_M/static/media/scene-ocean-1.9733d4605897b047b0a2.png",
@@ -109,10 +109,10 @@
     "static/media/minus.svg": "/Lofi_M/static/media/minus.7faa7b3476bf97b4ef7888259cfc0d51.svg",
     "static/media/arrow-left.svg": "/Lofi_M/static/media/arrow-left.d6cbebf6027a50ebb60c1498195be54d.svg",
     "main.a281ebec.css.map": "/Lofi_M/static/css/main.a281ebec.css.map",
-    "main.03f611b7.js.map": "/Lofi_M/static/js/main.03f611b7.js.map"
+    "main.80d82919.js.map": "/Lofi_M/static/js/main.80d82919.js.map"
   },
   "entrypoints": [
     "static/css/main.a281ebec.css",
-    "static/js/main.03f611b7.js"
+    "static/js/main.80d82919.js"
   ]
 }
