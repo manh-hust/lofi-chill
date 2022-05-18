@@ -60,7 +60,7 @@ function ThemeProvider({children}){
         return {pomodoro: false, break: false, long: false};
     }, [])
     const [defaultTime, setDefaultTime] = useState({
-            pomoTime: localStorage.getItem('pomodoro') || 0.1, 
+            pomoTime: localStorage.getItem('pomodoro') || 25, 
             breakTime: localStorage.getItem('break') || 5, 
             longTime: localStorage.getItem('long') || 10
         });
