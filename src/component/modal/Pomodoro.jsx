@@ -312,5 +312,4 @@ function toStringTime(number){
         return number.toString();
 }
 
-
 export default  Pomodoro
