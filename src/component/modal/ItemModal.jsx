@@ -1,25 +1,24 @@
-import Pomodoro from "./Pomodoro"
-import { ThemeContext } from '../../context'
-import { useContext} from 'react'
-import Draggable from 'react-draggable';
+import { useContext } from "react";
+import Draggable from "react-draggable";
+import { ThemeContext } from "../../context";
+import Pomodoro from "./Pomodoro";
 
-function ItemModal(){
+function ItemModal() {
+  const {
+    visiableFocusType: { pomodoro, session, notes, history },
+  } = useContext(ThemeContext);
 
-    const { visiableFocusType: {
-        pomodoro, session, notes, history
-    }} = useContext(ThemeContext)
-
-    return(
-        <>
-            {pomodoro && (
-				<Draggable handle='.handle'>
-					<div className='relative z-40'>
-						<Pomodoro />
-					</div>
-				</Draggable>
-			)}
-        </>
-    )
+  return (
+    <>
+      {pomodoro && (
+        <Draggable handle=".handle">
+          <div className="relative z-40">
+            <Pomodoro />
+          </div>
+        </Draggable>
+      )}
+    </>
+  );
 }
 
-export default ItemModal
+export default ItemModal;
