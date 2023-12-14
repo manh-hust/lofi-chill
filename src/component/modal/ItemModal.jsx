@@ -5,7 +5,7 @@ import Pomodoro from "./Pomodoro";
 
 function ItemModal() {
   const {
-    visiableFocusType: { pomodoro, session, notes, history },
+    visiableFocusType: { pomodoro },
   } = useContext(ThemeContext);
 
   return (
