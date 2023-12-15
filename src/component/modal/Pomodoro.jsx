@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Switch from "react-switch/dist/react-switch.dev.js";
+import Switch from "react-switch";
 import {
   arrowLeftIcon,
   closeIcon,
